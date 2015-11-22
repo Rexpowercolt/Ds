@@ -1,0 +1,37 @@
+double log_t(double t, double EPS)
+ {
+    if (t == 0)
+        return -INFINITY;
+    if (t < 0)
+    {
+        fprintf(stderr,"Prirozeny logaritmus lze pocitat jen z cisel vetsich nez 0!\n");
+        return NAN;
+    }
+    int power = 0;
+    while (t >= 2)
+    {
+
+        t = t/10;
+        power++;
+    }
+    while (t <= .1 && t > 0)
+    {
+    t = t * 10;
+    power--;
+    }
+    double z = (t - 1)/(t + 1);
+    double zz=z*2;
+    double z2=pow(z,2);
+    double y=zz;
+    unsigned int k=1;
+    double growth = y;
+        while (fabs(growth)>= EPS && growth != INFINITY && y != INFINITY)
+        {
+            growth *= ((k * z2)/(k + 2));
+            k += 2;
+            y += growth;
+        }
+        if (power != 0)
+            y += (power * log(10));
+  return y;
+}
